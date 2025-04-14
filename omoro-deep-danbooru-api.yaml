@@ -1,11 +1,13 @@
 openapi: 3.0.0
 info:
-  title: OmoroDeepDanbooru
+  title: Omoro Deep Danbooru API
   version: 1.0.0
+servers:
+  - url: https://Omoron-OmoroDeepDanbooru.hf.space
 paths:
   /predict:
     post:
-      summary: 画像をアップロードしてタグ推論を行う
+      summary: 画像を解析し、タグ推定結果を返す
       operationId: predictTags
       requestBody:
         required: true
@@ -17,14 +19,22 @@ paths:
                 file:
                   type: string
                   format: binary
-                  description: タグを推論する画像ファイル
+                  description: アップロードする画像ファイル
       responses:
         '200':
-          description: 成功レスポンス（タグ情報）
+          description: タグ推定成功時のレスポンス
           content:
             application/json:
               schema:
                 type: object
-                additionalProperties: true
-servers:
-  - url: https://Omoron-OmoroDeepDanbooru.hf.space
+                properties:
+                  tags:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        tag:
+                          type: string
+                        score:
+                          type: number
+                          format: float
