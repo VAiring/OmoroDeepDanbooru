@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: OmoroDeepDanbooru
+  version: 1.0.0
+paths:
+  /predict:
+    post:
+      summary: 画像をアップロードしてタグ推論を行う
+      operationId: predictTags
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: タグを推論する画像ファイル
+      responses:
+        '200':
+          description: 成功レスポンス（タグ情報）
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+servers:
+  - url: https://Omoron-OmoroDeepDanbooru.hf.space
